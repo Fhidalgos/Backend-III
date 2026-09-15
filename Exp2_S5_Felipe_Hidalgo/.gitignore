@@ -1,0 +1,5 @@
+# Certificados y secretos locales
+*.p12
+*.jks
+*.keystore
+.env
