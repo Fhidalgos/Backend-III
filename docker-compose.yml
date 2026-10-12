@@ -1,0 +1,49 @@
+
+services:
+  ms-clientes:
+    build: ./ms-clientes
+    ports:
+      - "8091"
+    environment:
+      CONFIG_SERVER_URL: "http://host.docker.internal:8888"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://host.docker.internal:3306/eft_clientes?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://host.docker.internal:8761/eureka/"
+    command:
+      - "--spring.config.import=configserver:http://host.docker.internal:8888"
+    networks:
+      - eft-network
+
+  ms-cuentas:
+    build: ./ms-cuentas
+    ports:
+      - "8092:8092"
+    environment:
+      CONFIG_SERVER_URL: "http://host.docker.internal:8888"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://host.docker.internal:3306/eft_cuentas?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://host.docker.internal:8761/eureka/"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-eft:9094"
+    command:
+      - "--spring.config.import=configserver:http://host.docker.internal:8888"
+    networks:
+      - eft-network
+
+  ms-pagos:
+    build: ./ms-pagos
+    ports:
+      - "8093:8093"
+    environment:
+      CONFIG_SERVER_URL: "http://host.docker.internal:8888"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://host.docker.internal:3306/eft_pagos?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://host.docker.internal:8761/eureka/"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka-eft:9094"
+    command:
+      - "--spring.config.import=configserver:http://host.docker.internal:8888"
+    networks:
+      - eft-network
+
+networks:
+  eft-network:
+    external: true
