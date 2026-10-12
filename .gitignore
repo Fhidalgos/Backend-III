@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+
+.vscode/
+**/target/
+**/build/
+**/.gradle/
+
+kafka-data/
+kafka-backup-definitivo/
+kafka-backup.tar.gz
+kafka-server-backup.txt
+kafka-server-docker.properties
+kafka-server-runtime.properties
+evidencias/
